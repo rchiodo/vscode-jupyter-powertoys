@@ -2,19 +2,18 @@
 // Licensed under the MIT License.
 
 import { joinPath } from '../vscode-path/resources';
-import dedent from 'dedent';
 import { ParentOptions } from './types';
 import * as vscode from 'vscode';
 import * as fs from 'fs-extra';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const VariableFunc = '_VSCODE_getVariable';
-const cleanupCode = dedent`
-                            try:
-                                del _VSCODE_getVariable
-                            except:
-                                pass
-                            `;
+const cleanupCode = `
+try:
+    del _VSCODE_getVariable
+except:
+    pass
+`;
 
 /**
  * Provides utilities to extract python scripts from the extension installation. These scripts can then be used to query variable information in the kernel.
@@ -82,12 +81,12 @@ export class VariableScriptGenerator {
         const scriptCode = await this.getContentsOfScript();
         const initializeCode = `${scriptCode}\n\n_VSCODE_rwho_ls = %who_ls\n`;
         const isDebugging = options.isDebugging ? 'True' : 'False';
-        const cleanupWhoLsCode = dedent`
-        try:
-            del _VSCODE_rwho_ls
-        except:
-            pass
-        `;
+        const cleanupWhoLsCode = `
+try:
+    del _VSCODE_rwho_ls
+except:
+    pass
+`;
 
         const code = `${VariableFunc}("types", ${isDebugging}, _VSCODE_rwho_ls)`;
         if (options.isDebugging) {

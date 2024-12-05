@@ -8,7 +8,7 @@ import type * as nbformat from '@jupyterlab/nbformat';
 
 export const executionCounters = new WeakMap<Kernel, number>();
 export async function execCodeInBackgroundThread<T>(
-    kernel: Kernel,
+    kernel: any,
     codeWithReturnStatement: string[],
     token: CancellationToken
 ) {
@@ -75,7 +75,7 @@ del __jupyter_exec_powerToys_background__
         })
     );
 
-    const outputs = kernel.executeCode(codeToSend, token);
+    const outputs = (kernel as Kernel).executeCode(codeToSend, token);
     for await (const output of outputs) {
         if (token.isCancellationRequested) {
             return;

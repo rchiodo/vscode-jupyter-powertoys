@@ -5,6 +5,7 @@ import { activateNotebookRunGroups } from './notebookRunGroups/startup';
 import { activate as activateKernelManagement } from './kernelManager/extension';
 import { activate as activateContextualHelp } from './contextualHelp/extension';
 import { activate as activateKernelSpy } from './kernelSpy/extension';
+import { activate as activateDatatips } from './dataTips/extension';
 
 export async function activate(context: vscode.ExtensionContext) {
     // All PowerToy features should have a top level enable / disable setting
@@ -19,6 +20,7 @@ export async function activate(context: vscode.ExtensionContext) {
     if (vscode.workspace.getConfiguration('jupyter').get('contextualHelp.enabled')) {
         await activateContextualHelp(context);
     }
+    await activateDatatips(context);
 }
 
 export function deactivate() {}
